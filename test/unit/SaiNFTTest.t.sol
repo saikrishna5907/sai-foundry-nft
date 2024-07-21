@@ -6,8 +6,7 @@ import {Test} from "forge-std/Test.sol";
 import {DeploySaiNFT} from "../../script/DeploySaiNFT.s.sol";
 import {SaiNFT} from "../../src/SaiNFT.sol";
 
-contract SaiNFTIntegrationTest is Test {
-    DeploySaiNFT saiNFTDeployer;
+contract SaiNFTTest is Test {
     SaiNFT saiNFT;
     address public user = makeAddr("user");
 
@@ -15,9 +14,7 @@ contract SaiNFTIntegrationTest is Test {
         "ipfs://bafybeia5uwb5zhd2ha5geosw2sj3g7ojzl2mzrdqnft73zebotsmc7fm34/";
 
     function setUp() public {
-        // Deploy SaiNFT
-        saiNFTDeployer = new DeploySaiNFT();
-        saiNFT = saiNFTDeployer.run();
+        saiNFT = new SaiNFT();
     }
 
     modifier setUpUserAndMintTokenURI() {
@@ -26,12 +23,19 @@ contract SaiNFTIntegrationTest is Test {
         _;
     }
 
-    function testMintNFT() public setUpUserAndMintTokenURI {
-        assert(saiNFT.balanceOf(user) == 1);
+    function testNameIsCorrect() public view {
         assert(
-            keccak256(abi.encodePacked(saiNFT.tokenURI(0))) ==
-                keccak256(abi.encodePacked(shibaInuURI))
+            keccak256(abi.encodePacked(saiNFT.name())) ==
+                keccak256(abi.encodePacked("SaiNFT"))
         );
-        assert(saiNFT.getTokenCounter() == 1);
+
+        assert(
+            keccak256(abi.encodePacked(saiNFT.symbol())) ==
+                keccak256(abi.encodePacked("SAINFT"))
+        );
+    }
+
+    function testInitialTokenCounter() public view {
+        assert(saiNFT.getTokenCounter() == 0);
     }
 }

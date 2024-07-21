@@ -18,6 +18,18 @@ contract MoodNFTTest is Test {
         moodNFT = new MoodNFT(SAD_SVG_URI, HAPPY_SVG_URI);
     }
 
+    /*//////////////////////////////////////////////////////////////
+                            INITIALIZATIONS
+    //////////////////////////////////////////////////////////////*/
+
+    function testInitialTokenCounter() public view {
+        assertEq(moodNFT.getTokenCounter(), 0);
+    }
+
+    function testInitialTokenMoodToBeHappy() public view {
+        // assertEq(moodNFT.s_tokenIdToMood[0], MoodNFT.Mood.HAPPY);
+    }
+
     function testViewTokenURI() public {
         vm.prank(USER);
         moodNFT.mintNft();

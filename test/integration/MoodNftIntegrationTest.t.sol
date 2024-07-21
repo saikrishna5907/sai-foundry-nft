@@ -35,7 +35,7 @@ contract MoodNftIntegrationTest is Test {
         assertEq(moodNFT.tokenURI(0), DEFAULT_HAPPY_SVG_JSON_URI);
     }
 
-    function testFlipMood() public useDefaultSVGs prankUser {
+    function testFlipMoodToSad() public useDefaultSVGs prankUser {
         moodNFT.mintNft();
         assertEq(moodNFT.tokenURI(0), DEFAULT_HAPPY_SVG_JSON_URI);
 
@@ -43,5 +43,31 @@ contract MoodNftIntegrationTest is Test {
         moodNFT.flipMood(0);
 
         assertEq(moodNFT.tokenURI(0), DEFAULT_SAD_SVG_JSON_URI);
+    }
+
+    function testFlipMoodToHappy() public useDefaultSVGs prankUser {
+        moodNFT.mintNft();
+        assertEq(moodNFT.tokenURI(0), DEFAULT_HAPPY_SVG_JSON_URI);
+
+        vm.prank(USER);
+        moodNFT.flipMood(0);
+
+        assertEq(moodNFT.tokenURI(0), DEFAULT_SAD_SVG_JSON_URI);
+
+        vm.prank(USER);
+        moodNFT.flipMood(0);
+
+        assertEq(moodNFT.tokenURI(0), DEFAULT_HAPPY_SVG_JSON_URI);
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                            FLIPMOOD ERRORS
+    //////////////////////////////////////////////////////////////*/
+
+    function testRevertOnlyOwnerCanFlipMood() public useDefaultSVGs prankUser {
+        moodNFT.mintNft();
+
+        vm.expectRevert(MoodNFT.MoodNFT__OnlyOwnerCanFlipMood.selector);
+        moodNFT.flipMood(0);
     }
 }
