@@ -22,9 +22,6 @@ contract DeployMoodNFTTest is Test {
     function testSvgToImageURI() public view {
         string memory result = deployer.svgToImageURI(imageSVG);
 
-        assert(
-            keccak256(abi.encodePacked(result)) ==
-                keccak256(abi.encodePacked(imageUri))
-        );
+        assert(keccak256(abi.encodePacked(result)) == keccak256(abi.encodePacked(imageUri)));
     }
 }

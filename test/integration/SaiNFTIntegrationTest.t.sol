@@ -11,8 +11,7 @@ contract SaiNFTIntegrationTest is Test {
     SaiNFT saiNFT;
     address public user = makeAddr("user");
 
-    string public constant shibaInuURI =
-        "ipfs://bafybeia5uwb5zhd2ha5geosw2sj3g7ojzl2mzrdqnft73zebotsmc7fm34/";
+    string public constant shibaInuURI = "ipfs://bafybeia5uwb5zhd2ha5geosw2sj3g7ojzl2mzrdqnft73zebotsmc7fm34/";
 
     function setUp() public {
         // Deploy SaiNFT
@@ -28,10 +27,7 @@ contract SaiNFTIntegrationTest is Test {
 
     function testMintNFT() public setUpUserAndMintTokenURI {
         assert(saiNFT.balanceOf(user) == 1);
-        assert(
-            keccak256(abi.encodePacked(saiNFT.tokenURI(0))) ==
-                keccak256(abi.encodePacked(shibaInuURI))
-        );
+        assert(keccak256(abi.encodePacked(saiNFT.tokenURI(0))) == keccak256(abi.encodePacked(shibaInuURI)));
         assert(saiNFT.getTokenCounter() == 1);
     }
 }
